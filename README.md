@@ -6,17 +6,16 @@ A no-nonsense, pure Python, renderer and loader for the [INTERACTION](http://int
 
 
 ### Quickstart
-If you have a recent pip, and Python > 3.7.5, then you can dive straight in with
+If you have a recent pip, and Python > 3.7.5, just use
 ```
 $ pip install git+https://github.com/rosshemsley/interactionviz
 ```
-Probably it's best to run this inside of an activated `virtualenv` of some kind.
+(probably it's best to run this inside of an activated `virtualenv` of some kind)
 
-To view one of the scenes use
+To view a scene, you can now use
 ```
 $ interactionviz --root-dir </root/of/interaction/dataset> --dataset DR_USA_Intersection_EP0
 ```
-This will open a window and render the tracks in realtime.
 
 ### Using this as a library
 The code is modular and easy to extend. Take a look at `__main__.py` inside the cli package
