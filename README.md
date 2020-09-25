@@ -21,3 +21,7 @@ $ interactionviz --root-dir </root/of/interaction/dataset> --dataset DR_USA_Inte
 The code is modular and easy to extend. Take a look at `__main__.py` inside the cli package
 for an example of using the basic tools. Beware this is an early version and the API
 might change unexpectedly in future versions.
+
+
+## Current Limitations
+⚠️ Currently, just renders the first vehicle trackfile. More is on the way!
