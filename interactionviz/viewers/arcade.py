@@ -5,7 +5,7 @@ import numpy as np
 
 from typing import Optional
 from interactionviz.maps import WayKind, Map
-from interactionviz.tracks import Tracks, Frame
+from interactionviz.tracks import AgentKind, Tracks, Frame
 from .viewport import Viewport, viewport_for_map
 
 AGENT_COLORS = [
@@ -129,20 +129,26 @@ def _render_background(width: int, height: int) -> None:
 
 def _render_obstacles(viewport: Viewport, frame: Frame) -> None:
     for agent in frame.agents:
-        color = AGENT_COLORS[agent.track_id % len(AGENT_COLORS)]
+        # color = AGENT_COLORS[agent.track_id % len(AGENT_COLORS)]
+        color = AGENT_COLORS[hash(agent.track_id) % len(AGENT_COLORS)]
         position = agent.position
-        extent = agent.extent
-        sin_theta = math.sin(agent.yaw)
-        cos_theta = math.cos(agent.yaw)
-        rot = np.array([[cos_theta, -sin_theta], [sin_theta, cos_theta]])
-        offsets = [
-            extent * 0.5 * np.array([1, 1]),
-            extent * 0.5 * np.array([1.2, 0]),
-            extent * 0.5 * np.array([1, 1]),
-            extent * 0.5 * np.array([1, -1]),
-            extent * 0.5 * np.array([-1, -1]),
-            extent * 0.5 * np.array([-1, 1]),
-        ]
-        ps = [position + rot.dot(o) for o in offsets]
-        ps = viewport.project(ps)
-        arcade.draw_polygon_filled(ps, color)
+
+        if agent.extent is not None and agent.yaw is not None:
+            half_extent = 0.5 * agent.extent
+            sin_theta = math.sin(agent.yaw)
+            cos_theta = math.cos(agent.yaw)
+            rot = np.array([[cos_theta, -sin_theta], [sin_theta, cos_theta]])
+            offsets = [
+                half_extent * np.array([1, 1]),
+                half_extent * np.array([1.2, 0]),
+                half_extent * np.array([1, 1]),
+                half_extent * np.array([1, -1]),
+                half_extent * np.array([-1, -1]),
+                half_extent * np.array([-1, 1]),
+            ]
+            ps = [position + rot.dot(o) for o in offsets]
+            ps = viewport.project(ps)
+            arcade.draw_polygon_filled(ps, color)
+        else:
+            position = viewport.project([position])[0]
+            arcade.draw_circle_filled(*position, 5, color=color)

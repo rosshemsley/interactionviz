@@ -6,7 +6,7 @@ A no-nonsense, pure Python, renderer and loader for the [INTERACTION](http://int
 
 
 ### Quickstart
-If you have a recent pip, and Python > 3.7.5, just use
+If you have a recent pip, and Python >= 3.7.5, just use
 ```
 $ pip install git+https://github.com/rosshemsley/interactionviz
 ```
@@ -14,8 +14,11 @@ $ pip install git+https://github.com/rosshemsley/interactionviz
 
 To view a scene, you can now use
 ```
-$ interactionviz --root-dir </root/of/interaction/dataset> --dataset DR_USA_Intersection_EP0
+$ interactionviz --root-dir </root/of/interaction/dataset> --dataset DR_USA_Intersection_EP0 --session 1
 ```
+
+If you have an older version of Python, you can use `pyenv` to install a more recent version.
+
 
 ### Using this as a library
 The code is modular and easy to extend. Take a look at `__main__.py` inside the cli package
