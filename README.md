@@ -12,7 +12,7 @@ $ pip install git+https://github.com/rosshemsley/interactionviz
 ```
 (probably it's best to run this inside of an activated `virtualenv` of some kind)
 
-To view a scene, you can now use
+To view a scene, you can use
 ```
 $ interactionviz --root-dir </root/of/interaction/dataset> --dataset DR_USA_Intersection_EP0 --session 1
 ```
@@ -21,10 +21,19 @@ If you have an older version of Python, you can use `pyenv` to install a more re
 
 
 ### Using this as a library
-The code is modular and easy to extend. Take a look at `__main__.py` inside the cli package
-for an example of using the basic tools. Beware this is an early version and the API
+The code is modular and easy to extend. Beware this is an early version and the API
 might change unexpectedly in future versions.
 
+Here's an example of importing and using this viewer in your own code.
 
-## Current Limitations
-⚠️ Currently, just renders the first vehicle trackfile. More is on the way!
+```python
+from interactionviz.maps import load_map_xml
+from interactionviz.tracks import load_tracks_files
+from interactionviz.viewers import ArcadeViewer
+
+interaction_map = load_map_xml("<path/to/map.osm_xy>")
+tracks = load_tracks_files("<path/to/map.csv>")
+viewer = ArcadeViewer(interaction_map, tracks)
+
+viewer.run()
+```

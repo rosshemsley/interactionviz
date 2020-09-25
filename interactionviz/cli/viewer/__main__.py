@@ -20,8 +20,7 @@ def main(root_dir: str, dataset: str, session: int):
     root = pathlib.Path(root_dir)
     map_path = root.joinpath("maps", f"{dataset}.osm_xy")
 
-    with map_path.open() as map_file:
-        interaction_map = load_map_xml(map_file)
+    interaction_map = load_map_xml(map_path)
 
     tracks = _load_tracks(root, dataset, session)
     viewer = ArcadeViewer(interaction_map, tracks=tracks)

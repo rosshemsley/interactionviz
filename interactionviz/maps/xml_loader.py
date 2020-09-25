@@ -1,12 +1,13 @@
 import xml.etree
-from typing import IO
+from typing import IO, Union
+import pathlib
 
 import numpy as np
 
 from .map import Map, Way, WayKind, Node, Lane
 
 
-def load_map_xml(infile: IO):
+def load_map_xml(infile: Union[pathlib.Path, IO]) -> Map:
     tree = xml.etree.ElementTree.parse(infile)
     root = tree.getroot()
 
