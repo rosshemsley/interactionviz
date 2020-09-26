@@ -1,14 +1,14 @@
 # interactionviz
 
-A no-nonsense, pure Python, renderer and loader for the [INTERACTION](http://interaction-dataset.com/) dataset.
+A no-nonsense, pure Python, renderer / visualizer and loader for the [INTERACTION](http://interaction-dataset.com/) dataset.
 
-![Demo](demo/output.gif)
+![Demo](https://raw.githubusercontent.com/rosshemsley/interactionviz/master/demo/output.gif)
 
 
 ### Quickstart
-If you have a recent pip, and Python >= 3.7.5, just use
+If you have Python >= 3.7.5, just use
 ```
-$ pip install git+https://github.com/rosshemsley/interactionviz
+$ pip install interactionviz
 ```
 (probably it's best to run this inside of an activated `virtualenv` of some kind)
 

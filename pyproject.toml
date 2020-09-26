@@ -3,8 +3,8 @@ interactionviz = "interactionviz.cli.viewer.__main__:main"
 
 [tool.poetry]
 name = "interactionviz"
-version = "0.1.1"
-description = "Pure Python viewer / renderer and loader for the INTERACTION dataset"
+version = "0.1.2"
+description = "Pure Python viewer / renderer / visualizer and loader for the INTERACTION dataset"
 authors = ["Ross Hemsley <rlhemsley@gmail.com>"]
 readme = "README.md"
 
