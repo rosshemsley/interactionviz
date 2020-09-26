@@ -1,4 +1,4 @@
-# interactionviz
+# 🚦 interactionviz
 
 A no-nonsense, pure Python, renderer / visualizer and loader for the [INTERACTION](http://interaction-dataset.com/) dataset.
 
