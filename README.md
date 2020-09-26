@@ -32,7 +32,7 @@ from interactionviz.tracks import load_tracks_files
 from interactionviz.viewers import ArcadeViewer
 
 interaction_map = load_map_xml("<path/to/map.osm_xy>")
-tracks = load_tracks_files("<path/to/map.csv>")
+tracks = load_tracks_files("<path/to/vehicle_tracks_000.csv>")
 viewer = ArcadeViewer(interaction_map, tracks)
 
 viewer.run()
