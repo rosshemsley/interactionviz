@@ -59,7 +59,7 @@ def viewport_for_map_no_scaling(interaction_map):
             max_y = max(max_y, y)
 
     return Viewport(
-        screen_width=max_x - min_x ,
+        screen_width=max_x - min_x,
         screen_height=min_y - max_y,
         viewport_x_range=np.array([min_x, max_x]),
         viewport_y_range=np.array([min_y, max_y]),

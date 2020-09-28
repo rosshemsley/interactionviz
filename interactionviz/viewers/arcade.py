@@ -119,7 +119,7 @@ def _render_map(viewport: Viewport, interaction_map: Map) -> None:
 
 def _render_background(width: int, height: int) -> None:
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    grass = os.path.join(dir_path, "sprites", "grass.png")
+    grass = os.path.join(dir_path, "static", "grass.png")
     background = arcade.load_texture(grass)
 
     for i in range(0, width, 32):
