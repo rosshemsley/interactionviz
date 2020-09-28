@@ -3,7 +3,7 @@ import pathlib
 
 import click
 from interactionviz.maps import load_map_xml
-from interactionviz.viewers import ArcadeViewer
+from interactionviz.viewers import ArcadeViewer, WebViewer
 from interactionviz.tracks import Tracks, load_tracks_files
 
 
@@ -15,15 +15,23 @@ from interactionviz.tracks import Tracks, load_tracks_files
     help="Root directory of the interaction dataset.",
 )
 @click.option("--dataset", default="DR_CHN_Merging_ZS")
+@click.option(
+    "--viewer-kind",
+    default="native",
+    type=click.Choice(["web", "native"], case_sensitive=False),
+)
 @click.option("--session", type=int, default=0, help="session to load for tracks")
-def main(root_dir: str, dataset: str, session: int):
+def main(viewer_kind: str, root_dir: str, dataset: str, session: int):
     root = pathlib.Path(root_dir)
     map_path = root.joinpath("maps", f"{dataset}.osm_xy")
 
     interaction_map = load_map_xml(map_path)
 
     tracks = _load_tracks(root, dataset, session)
-    viewer = ArcadeViewer(interaction_map, tracks=tracks)
+    if viewer_kind == "web":
+        viewer = WebViewer(interaction_map, tracks=tracks)
+    else:
+        viewer = ArcadeViewer(interaction_map, tracks=tracks)
     viewer.run()
 
 
