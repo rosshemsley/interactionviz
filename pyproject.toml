@@ -3,7 +3,7 @@ interactionviz = "interactionviz.cli.viewer.__main__:main"
 
 [tool.poetry]
 name = "interactionviz"
-version = "0.1.2"
+version = "0.1.3"
 description = "Pure Python viewer / renderer / visualizer and loader for the INTERACTION dataset"
 authors = ["Ross Hemsley <rlhemsley@gmail.com>"]
 readme = "README.md"
@@ -14,6 +14,7 @@ numpy = "^1.19.2"
 arcade = "^2.4.2"
 click = "^7.1.2"
 scipy = "^1.5.2"
+websockets = "^8.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
