@@ -15,7 +15,11 @@ from interactionviz.tracks import Tracks, load_tracks_files
     help="Root directory of the interaction dataset.",
 )
 @click.option("--dataset", default="DR_CHN_Merging_ZS")
-@click.option("--viewer-kind", default="native", type=click.Choice(['web', 'native'], case_sensitive=False))
+@click.option(
+    "--viewer-kind",
+    default="native",
+    type=click.Choice(["web", "native"], case_sensitive=False),
+)
 @click.option("--session", type=int, default=0, help="session to load for tracks")
 def main(viewer_kind: str, root_dir: str, dataset: str, session: int):
     root = pathlib.Path(root_dir)
