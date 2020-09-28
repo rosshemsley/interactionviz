@@ -63,7 +63,7 @@ def load_map_xml(infile: Union[pathlib.Path, IO]) -> Map:
 
             way_kind = None
             if way_type == "road_border":
-                way_type = WayKind.RoadBorder
+                way_kind = WayKind.RoadBorder
             elif way_type == "stop_line":
                 way_kind = WayKind.StopLine
             elif way_type == "guard_rail":

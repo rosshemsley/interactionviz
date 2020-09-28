@@ -7,8 +7,8 @@ from interactionviz.maps import Map
 
 @dataclass
 class Viewport:
-    screen_width: int
-    screen_height: int
+    screen_width: float
+    screen_height: float
     viewport_x_range: np.ndarray
     viewport_y_range: np.ndarray
 
@@ -39,8 +39,35 @@ class Viewport:
         return result
 
 
+def viewport_for_map_no_scaling(interaction_map):
+    """
+    Returns a viewport where the screen width and height are the same as the map width and height.
+
+    This is useful for rendering on a 3D canvas where we want the units to be equal to meters.
+    """
+    min_x, min_y, max_x, max_y = None, None, None, None
+
+    for n in interaction_map.nodes.values():
+        x, y = n.position[0], n.position[1]
+        if min_x is None:
+            min_x = max_x = x
+            min_y = max_y = y
+        else:
+            min_x = min(min_x, x)
+            min_y = min(min_y, y)
+            max_x = max(max_x, x)
+            max_y = max(max_y, y)
+
+    return Viewport(
+        screen_width=max_x - min_x ,
+        screen_height=min_y - max_y,
+        viewport_x_range=np.array([min_x, max_x]),
+        viewport_y_range=np.array([min_y, max_y]),
+    )
+
+
 def viewport_for_map(
-    screen_width: int, screen_height: int, interaction_map: Map
+    screen_width: float, screen_height: float, interaction_map: Map
 ) -> Viewport:
     min_x, min_y, max_x, max_y = None, None, None, None
 

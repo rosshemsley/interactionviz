@@ -3,7 +3,7 @@ import pathlib
 
 import click
 from interactionviz.maps import load_map_xml
-from interactionviz.viewers import ArcadeViewer
+from interactionviz.viewers import ArcadeViewer, WebViewer
 from interactionviz.tracks import Tracks, load_tracks_files
 
 
@@ -23,7 +23,7 @@ def main(root_dir: str, dataset: str, session: int):
     interaction_map = load_map_xml(map_path)
 
     tracks = _load_tracks(root, dataset, session)
-    viewer = ArcadeViewer(interaction_map, tracks=tracks)
+    viewer = WebViewer(interaction_map, tracks=tracks)
     viewer.run()
 
 
