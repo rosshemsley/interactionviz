@@ -1,9 +1,9 @@
+import logging
 import http
 import json
 import asyncio
 import websockets
 import os
-import arcade
 import math
 import numpy as np
 
@@ -33,24 +33,16 @@ AGENT_COLORS = [
     (185, 242, 240),
 ]
 
-# The default size of the canvas will be 1024 by 1024... for now.
-DEFAULT_WIDTH = 1024
-DEFAULT_HEIGHT = 1024
-DEFAULT_FRAMERATE = 1 / 10
-
 
 class WebViewer:
     def __init__(
         self,
         interaction_map: Map,
         tracks: Optional[Tracks] = None,
-        width=DEFAULT_WIDTH,
-        height=DEFAULT_HEIGHT,
     ):
+        logging.warn("This feature is a very early preview, YMMV")
         self.map = interaction_map
         self.tracks = tracks
-        self.width = width
-        self.height = height
         self.viewport = viewport_for_map_no_scaling(
             interaction_map=interaction_map,
         )
@@ -64,7 +56,7 @@ class WebViewer:
             DEFAULT_PORT,
             process_request=self._serve_static,
         )
-        print(f"Starting server at localhost:{DEFAULT_PORT}...")
+        logging.info(f"Starting server at localhost:{DEFAULT_PORT}...")
         print(
             f"Open http://localhost:{DEFAULT_PORT}/viewer in your browser to see the viewer"
         )
