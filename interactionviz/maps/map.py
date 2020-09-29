@@ -38,7 +38,7 @@ class Lane:
     left_way: Way
     right_way: Way
 
-    def to_triangles(self):
+    def to_triangles(self) -> List[np.ndarray]:
         """
         triangulate the lane so it can easily be rendered.
 
@@ -72,7 +72,26 @@ class Map:
     Map represents the data loaded from a lanelets XML file,
     as represented in the interactions dataset.
     """
-
     ways: Dict[str, Way]
     nodes: Dict[str, Node]
     lanes: Dict[str, Lane]
+
+    def triangulate_map_region(self) -> List[np.ndarray]:
+        """
+        Triangulate the map region, using the ways as the boundaries.
+        """
+        points = []
+        way_ids = []
+        for way in self.ways.values():
+            for p in way.nodes:
+                points.append(p.position)
+                way_ids.append(way.osm_id)
+
+        triangles = Delaunay(points).simplices
+        result = []
+        for i in range(triangles.shape[0]):
+            triangle = triangles[i]
+            triangle_way_ids = [way_ids[j] for j in triangle]
+            result.append([points[j] for j in triangle])
+        
+        return result

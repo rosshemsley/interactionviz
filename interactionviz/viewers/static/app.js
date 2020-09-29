@@ -40,9 +40,9 @@ async function requestFrame(i) {
     socket.send(JSON.stringify(request));
 }
 
-function drawTriangles2D(triangles_2D) {
+function drawTriangles2D(triangles_2D, color, height) {
     var roadMaterial = new THREE.MeshPhysicalMaterial({
-        color: "#303030",
+        color: color,
         reflectivity: 0.0,
         roughness: 1.0,
     });
@@ -55,20 +55,15 @@ function drawTriangles2D(triangles_2D) {
         p1 = triangle[1];
         p0 = triangle[2];
 
-        var v1 = new THREE.Vector3(p0[0], 0, p0[1]);
-        var v2 = new THREE.Vector3(p1[0], 0, p1[1]);
-        var v3 = new THREE.Vector3(p2[0], 0, p2[1]);
+        var v1 = new THREE.Vector3(p0[0], height, p0[1]);
+        var v2 = new THREE.Vector3(p1[0], height, p1[1]);
+        var v3 = new THREE.Vector3(p2[0], height, p2[1]);
 
         geom.vertices.push(v1);
         geom.vertices.push(v2);
         geom.vertices.push(v3);
 
         geom.faces.push(new THREE.Face3((3 * count + 0), (3 * count + 1), (3 * count + 2)));
-        geom.faceVertexUvs[0].push([
-            new THREE.Vector2(0.0, 0.0),
-            new THREE.Vector2(0.0, 1.0),
-            new THREE.Vector2(1.0, 1.0)
-        ]);
         count += 1;
     }
 
@@ -103,14 +98,13 @@ function renderFrame(frame) {
         current_frame_agents[agent.track_id] = true;
 
         if (agent.track_id in visible_obstacles) {
-
             const a = visible_obstacles[agent.track_id];
             a.position.x = agent.position[0];
-            a.position.y = 0.5;
+            a.position.y = 1.3;
             a.position.z = agent.position[1];
             a.rotation.y = -agent.yaw;
         } else {
-            var geometry = new THREE.BoxGeometry(agent.extent[0] / 2, 2 / 2, agent.extent[1] / 2);
+            var geometry = new THREE.BoxGeometry(agent.extent[0], 2, agent.extent[1]);
             var color = new THREE.Color("rgb(" + agent.color[0] + "," + agent.color[1] + "," + agent.color[2] + ")");
             var material = new THREE.MeshBasicMaterial({
                 transparent: true,
@@ -120,7 +114,7 @@ function renderFrame(frame) {
             var cube = new THREE.Mesh(geometry, material);
             cube.rotation.y = -agent.yaw;
             cube.position.x = agent.position[0];
-            cube.position.y = 0.5;
+            cube.position.y = 1.3;
             cube.position.z = agent.position[1];
             visible_obstacles[agent.track_id] = cube;
             scene.add(cube);
@@ -188,8 +182,10 @@ function renderMap(map_data) {
         }
     }
 
+    console.log("Hi", map_data.triangulated_region);
+    drawTriangles2D(map_data.triangulated_region, "#252525", 0.1);
     for (lane_triangles of map_data.triangulated_lanes) {
-        drawTriangles2D(lane_triangles);
+        drawTriangles2D(lane_triangles, "#303030", 0.2);
     }
 }
 
@@ -203,7 +199,7 @@ function renderPolyLine(points, thickness, color) {
 
     material.side = THREE.DoubleSide;
 
-    height = 0.1
+    height = 0.25
 
 
     for (i = 0; i < points.length - 1; i++) {

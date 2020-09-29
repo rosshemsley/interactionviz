@@ -131,10 +131,17 @@ def _serialize_map(viewport: Viewport, interaction_map: Map) -> JSON:
             lane_triangles.append([p.tolist() for p in viewport.project(triangle)])
         triangulated_lanes.append(lane_triangles)
 
+    region_triangles = [
+        [point.tolist() for point in viewport.project(triangle)]
+        for triangle in interaction_map.triangulate_map_region()
+    ]
+    
+
     return dict(
         action="map_data",
         payload=dict(
             triangulated_lanes=triangulated_lanes,
+            triangulated_region=region_triangles,
             ways=_serialize_ways(viewport, interaction_map),
         ),
     )
