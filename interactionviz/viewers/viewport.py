@@ -19,28 +19,27 @@ class Viewport:
         height = self.viewport_y_range[1] - self.viewport_y_range[0]
 
         if self.screen_width is None or self.screen_height is None:
-            offset = np.array([
-                self.viewport_x_range[0] + width / 2,
-                self.viewport_y_range[0] + height / 2,
-            ])
+            offset = np.array(
+                [
+                    self.viewport_x_range[0] + width / 2,
+                    self.viewport_y_range[0] + height / 2,
+                ]
+            )
             return [p - offset for p in points]
 
         for p in points:
             # v moves to a unit box centered at 0.
-            v = p - np.array([
-                self.viewport_x_range[0] + width / 2,
-                self.viewport_y_range[0] + height / 2,
-            ]
+            v = p - np.array(
+                [
+                    self.viewport_x_range[0] + width / 2,
+                    self.viewport_y_range[0] + height / 2,
+                ]
             )
             v = v / max(width, height)
             # now move to the viewport
             v = v * min(self.screen_height, self.screen_width)
-            v = v + np.array(
-                [self.screen_width/2,
-                self.screen_height/2]
-            )
+            v = v + np.array([self.screen_width / 2, self.screen_height / 2])
             result.append(v)
-
 
         # rescale = min(self.screen_height, self.screen_width) / max(x_range, y_range)
         # midpoint = np.array([self.screen_width / 2, self.screen_height / 2])
