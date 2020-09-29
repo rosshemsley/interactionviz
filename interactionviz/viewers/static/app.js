@@ -6,11 +6,17 @@ function initSocket() {
     socket.onmessage = function(event) {
         const response = JSON.parse(event.data);
         if (response.action == "map_data") {
-            console.log("map payload", response.payload);
             renderMap(response.payload);
         }
 
         if (response.action == "frame") {
+            if (paused) {
+                return
+            }
+
+            document.getElementById("playbar").value = response.payload.current_index;
+            document.getElementById("playbar").min = 0;
+            document.getElementById("playbar").max = response.payload.max_index;
             renderFrame(response.payload);
         }
     };
@@ -238,25 +244,32 @@ function renderPolyLine(points, thickness, color) {
     scene.add(new THREE.Mesh(geom, material));
 }
 
+function playbarChanged() {
+    current_index = +document.getElementById("playbar").value;
+}
+
 function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
-    if (current_index % 5 == 0) {
-        requestFrame(current_index / 5);
+    if (animation_index % 5 == 0) {
+        if (!paused) {
+            requestFrame(current_index);
+            current_index += 1;
+        }
     }
-    current_index += 1;
+    animation_index += 1;
 }
 
 console.log("connecting to", window.location.host);
 var socket = new WebSocket("ws://" + window.location.host);
 var scene = new THREE.Scene();
-var renderer = new THREE.WebGLRenderer({ antialias: true, autoSize: true });
+var renderer = new THREE.WebGLRenderer({ antialias: true });
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
+var container = document.getElementById("canvas");
 
 scene.background = new THREE.Color(0x9ed8ff);
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+container.appendChild(renderer.domElement);
 
 camera.position.z = 50;
 camera.position.y = 50;
@@ -265,9 +278,56 @@ camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 var visible_obstacles = {};
 var current_index = 0;
+var animation_index = 0;
+var paused = true;
+var before_change_slider = null;
 
 initSocket();
 addLights();
 addSkyDome();
 renderGround();
 animate();
+
+function onContainerResize() {
+    var box = container.getBoundingClientRect();
+    renderer.setSize(box.width, box.height);
+    camera.aspect = box.width / box.height
+    camera.updateProjectionMatrix()
+}
+
+function updatePlayBotton() {
+    if (paused) {
+        playbutton.innerHTML = "play_circle_filled"
+    } else {
+        playbutton.innerHTML = "pause_circle_filled"
+    }
+}
+
+onContainerResize();
+window.addEventListener("resize", onContainerResize);
+container.addEventListener('resize', onContainerResize);
+
+var playbar = document.getElementById("playbar");
+var playbutton = document.getElementById("playbutton");
+
+playbutton.addEventListener("click", function() {
+    paused = !paused;
+    updatePlayBotton();
+}, false);
+
+playbar.addEventListener("input", function() {
+    if (before_change_slider === null) {
+        before_change_slider = paused;
+    }
+    paused = true;
+}, false);
+
+playbar.addEventListener("change", function() {
+    current_index = +playbar.value;
+    paused = before_change_slider;
+    updatePlayBotton();
+    before_change_slider = null;
+}, false);
+
+updatePlayBotton();
+playbar.value = 0;

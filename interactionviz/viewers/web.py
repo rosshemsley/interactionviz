@@ -90,26 +90,25 @@ class WebViewer:
             request = json.loads(await websocket.recv())
 
             if "action" in request and request["action"] == "request_frame":
-
                 idx = request["index"]
                 response = dict(
                     action="frame",
-                    payload=_serialize_frame(self.viewport, self.tracks[idx]),
+                    payload=dict(
+                        current_index=idx,
+                        max_index=len(self.tracks),
+                        agents=_serialize_agents(self.viewport, self.tracks[idx]),
+                    )
                 )
 
                 await websocket.send(json.dumps(response))
 
 
-def _serialize_frame(viewport: Viewport, frame: Frame) -> JSON:
-    agents = [
+def _serialize_agents(viewport: Viewport, frame: Frame) -> JSON:
+    return [
         _serialize_car_agent(viewport, a)
         for a in frame.agents
         if a.kind is AgentKind.CAR
     ]
-
-    return {
-        "agents": agents,
-    }
 
 
 def _serialize_car_agent(viewport: Viewport, agent: Agent):
