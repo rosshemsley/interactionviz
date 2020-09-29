@@ -102,22 +102,33 @@ function renderFrame(frame) {
             a.position.x = agent.position[0];
             a.position.y = 1.3;
             a.position.z = agent.position[1];
-            a.rotation.y = -agent.yaw;
+            if ("yaw" in agent) {
+                a.rotation.y = -agent.yaw;
+            }
         } else {
-            var geometry = new THREE.BoxGeometry(agent.extent[0], 2, agent.extent[1]);
+            var geometry = null;
+
+            if (agent.kind === "CAR" || agent.kind === "TRUCK") {
+                geometry = new THREE.BoxGeometry(agent.extent[0], 2, agent.extent[1]);
+            } else {
+                geometry = new THREE.CylinderGeometry(1.5, 1.5, 2, 10);
+            }
+
             var color = new THREE.Color("rgb(" + agent.color[0] + "," + agent.color[1] + "," + agent.color[2] + ")");
             var material = new THREE.MeshBasicMaterial({
                 transparent: true,
                 opacity: 0.8,
                 color: "#" + color.getHexString(),
             });
-            var cube = new THREE.Mesh(geometry, material);
-            cube.rotation.y = -agent.yaw;
-            cube.position.x = agent.position[0];
-            cube.position.y = 1.3;
-            cube.position.z = agent.position[1];
-            visible_obstacles[agent.track_id] = cube;
-            scene.add(cube);
+            var mesh = new THREE.Mesh(geometry, material);
+            if ("yaw" in agent) {
+                mesh.rotation.y = -agent.yaw;
+            }
+            mesh.position.x = agent.position[0];
+            mesh.position.y = 1.3;
+            mesh.position.z = agent.position[1];
+            visible_obstacles[agent.track_id] = mesh;
+            scene.add(mesh);
         }
     }
 
@@ -182,7 +193,6 @@ function renderMap(map_data) {
         }
     }
 
-    console.log("Hi", map_data.triangulated_region);
     drawTriangles2D(map_data.triangulated_region, "#252525", 0.1);
     for (lane_triangles of map_data.triangulated_lanes) {
         drawTriangles2D(lane_triangles, "#303030", 0.2);
@@ -259,11 +269,15 @@ function animate() {
 console.log("connecting to", window.location.host);
 var socket = new WebSocket("ws://" + window.location.host);
 var scene = new THREE.Scene();
+var container = document.getElementById("canvas");
 var renderer = new THREE.WebGLRenderer({ antialias: true });
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-var controls = new THREE.OrbitControls(camera, renderer.domElement);
-var container = document.getElementById("canvas");
 
+
+
+var controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+scene.add(camera);
 scene.background = new THREE.Color(0x9ed8ff);
 container.appendChild(renderer.domElement);
 

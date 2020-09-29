@@ -105,20 +105,27 @@ class WebViewer:
 
 def _serialize_agents(viewport: Viewport, frame: Frame) -> JSON:
     return [
-        _serialize_car_agent(viewport, a)
-        for a in frame.agents
-        if a.kind is AgentKind.CAR
+        _serialize_agent(viewport, a) for a in frame.agents
     ]
 
 
-def _serialize_car_agent(viewport: Viewport, agent: Agent):
-    return dict(
-        track_id=agent.track_id,
-        position=viewport.project([agent.position])[0].tolist(),
-        extent=agent.extent.tolist(),
-        yaw=agent.yaw,
-        color=AGENT_COLORS[hash(agent.track_id) % len(AGENT_COLORS)],
-    )
+def _serialize_agent(viewport: Viewport, agent: Agent):
+    if agent.kind is AgentKind.CAR or agent.kind is AgentKind.TRUCK:
+        return dict(
+            kind=agent.kind.name,
+            track_id=agent.track_id,
+            position=viewport.project([agent.position])[0].tolist(),
+            extent=agent.extent.tolist(),
+            yaw=agent.yaw,
+            color=AGENT_COLORS[hash(agent.track_id) % len(AGENT_COLORS)],
+        )
+    else:
+        return dict(
+            kind=agent.kind.name,
+            track_id=agent.track_id,
+            position=viewport.project([agent.position])[0].tolist(),
+            color=AGENT_COLORS[hash(agent.track_id) % len(AGENT_COLORS)],
+        )
 
 
 def _serialize_map(viewport: Viewport, interaction_map: Map) -> JSON:

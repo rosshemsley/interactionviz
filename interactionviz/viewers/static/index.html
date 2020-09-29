@@ -7,14 +7,19 @@
     <meta charset="utf-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r120/three.min.js" integrity="sha512-kgjZw3xjgSUDy9lTU085y+UCVPz3lhxAtdOVkcO4O2dKl2VSBcNsQ9uMg/sXIM4SoOmCiYfyFO/n1/3GSXZtSg==" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.101.1/examples/js/controls/OrbitControls.js" crossorigin="anonymous"></script>
-
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
     <div id="canvas"></div>
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="#">nothing to see here</a>
+    </div>
+    <div id="main">
+        <i button class="material-icons" id="openbtn" onclick="openNav()">settings</i>
+    </div>
     <div id="playcontrols">
         <i class="material-icons" id="playbutton">pause_circle_filled</i>
         <input type="range" id="playbar" min="0" , max="100" , default="0"></input>
@@ -22,5 +27,16 @@
 </body>
 
 <script src="app.js "></script>
+<script>
+    function openNav() {
+        document.getElementById("mySidebar").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    }
+</script>
 
 </html>
