@@ -1,40 +1,66 @@
 from dataclasses import dataclass
 import numpy as np
-from typing import List
+from typing import List, Optional
 
 from interactionviz.maps import Map
 
 
 @dataclass
 class Viewport:
-    screen_width: float
-    screen_height: float
+    screen_width: Optional[float]
+    screen_height: Optional[float]
     viewport_x_range: np.ndarray
     viewport_y_range: np.ndarray
 
     def project(self, points: List[np.ndarray]) -> List[np.ndarray]:
-        x_range = self.viewport_x_range[1] - self.viewport_x_range[0]
-        y_range = self.viewport_y_range[1] - self.viewport_y_range[0]
-
-        rescale = min(self.screen_height, self.screen_width) / max(x_range, y_range)
-        midpoint = np.array([self.screen_width / 2, self.screen_height / 2])
         result = []
-        for p in points:
-            normalized_frame = (
-                p
-                - np.array(
-                    [
-                        self.viewport_x_range[0] + x_range / 2,
-                        self.viewport_y_range[0] + y_range / 2,
-                    ]
-                )
-            ) / max(x_range / 2, y_range / 2)
-            normalized_frame *= min(self.screen_height, self.screen_width)
-            normalized_frame += np.array(
-                [self.screen_width / 2, self.screen_height / 2]
-            )
 
-            result.append(normalized_frame)
+        width = self.viewport_x_range[1] - self.viewport_x_range[0]
+        height = self.viewport_y_range[1] - self.viewport_y_range[0]
+
+        if self.screen_width is None or self.screen_height is None:
+            offset = np.array([
+                self.viewport_x_range[0] + width / 2,
+                self.viewport_y_range[0] + height / 2,
+            ])
+            return [p - offset for p in points]
+
+        for p in points:
+            # v moves to a unit box centered at 0.
+            v = p - np.array([
+                self.viewport_x_range[0] + width / 2,
+                self.viewport_y_range[0] + height / 2,
+            ]
+            )
+            v = v / max(width, height)
+            # now move to the viewport
+            v = v * min(self.screen_height, self.screen_width)
+            v = v + np.array(
+                [self.screen_width/2,
+                self.screen_height/2]
+            )
+            result.append(v)
+
+
+        # rescale = min(self.screen_height, self.screen_width) / max(x_range, y_range)
+        # midpoint = np.array([self.screen_width / 2, self.screen_height / 2])
+        # result = []
+        # for p in points:
+        #     normalized_frame = (
+        #         p
+        #         - np.array(
+        #             [
+        #                 self.viewport_x_range[0] + x_range / 2,
+        #                 self.viewport_y_range[0] + y_range / 2,
+        #             ]
+        #         )
+        #     ) / max(x_range / 2, y_range / 2)
+        #     normalized_frame *= min(self.screen_height, self.screen_width)
+        #     normalized_frame += np.array(
+        #         [self.screen_width / 2, self.screen_height / 2]
+        #     )
+
+        #     result.append(normalized_frame)
 
         return result
 
@@ -59,8 +85,8 @@ def viewport_for_map_no_scaling(interaction_map):
             max_y = max(max_y, y)
 
     return Viewport(
-        screen_width=max_x - min_x,
-        screen_height=min_y - max_y,
+        screen_width=None,
+        screen_height=None,
         viewport_x_range=np.array([min_x, max_x]),
         viewport_y_range=np.array([min_y, max_y]),
     )

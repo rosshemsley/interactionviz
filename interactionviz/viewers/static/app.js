@@ -109,9 +109,9 @@ function renderFrame(frame) {
             var geometry = null;
 
             if (agent.kind === "CAR" || agent.kind === "TRUCK") {
-                geometry = new THREE.BoxGeometry(agent.extent[0], 2, agent.extent[1]);
+                geometry = new THREE.BoxGeometry(agent.extent[0], 1.5, agent.extent[1]);
             } else {
-                geometry = new THREE.CylinderGeometry(1.5, 1.5, 2, 10);
+                geometry = new THREE.CylinderGeometry(0.7, 0.7, 1.5, 10);
             }
 
             var color = new THREE.Color("rgb(" + agent.color[0] + "," + agent.color[1] + "," + agent.color[2] + ")");
@@ -187,7 +187,7 @@ function renderMap(map_data) {
         } else if (way.kind == "CurbStone") {
             renderPolyLine(way.points, 0.1, "#111111");
         } else if (way.kind == "PedestrianMarking") {
-            renderPolyLine(way.points, 1.0, "#999999");
+            renderPolyLine(way.points, 0.2, "#999999");
         } else if (way.kind == "DashedLine") {
             renderPolyLine(way.points, 0.1, "#999999");
         }
