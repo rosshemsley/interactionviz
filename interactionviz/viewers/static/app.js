@@ -257,7 +257,7 @@ function playbarChanged() {
 function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
-    if (animation_index % 5 == 0) {
+    if (animation_index % 6 == 0) {
         if (!paused) {
             requestFrame(current_index);
             current_index += 1;
@@ -272,18 +272,15 @@ var scene = new THREE.Scene();
 var container = document.getElementById("canvas");
 var renderer = new THREE.WebGLRenderer({ antialias: true });
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-
-
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 scene.add(camera);
 scene.background = new THREE.Color(0x9ed8ff);
 container.appendChild(renderer.domElement);
 
-camera.position.z = 50;
+camera.position.z = 30;
 camera.position.y = 50;
-camera.position.x = 50;
+camera.position.x = 0;
 camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 var visible_obstacles = {};
@@ -319,6 +316,14 @@ container.addEventListener('resize', onContainerResize);
 
 var playbar = document.getElementById("playbar");
 var playbutton = document.getElementById("playbutton");
+
+document.body.onkeyup = function(e) {
+    // spacebar
+    if (e.keyCode == 32) {
+        paused = !paused;
+        updatePlayBotton();
+    }
+}
 
 playbutton.addEventListener("click", function() {
     paused = !paused;
