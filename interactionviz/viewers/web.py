@@ -97,16 +97,14 @@ class WebViewer:
                         current_index=idx,
                         max_index=len(self.tracks),
                         agents=_serialize_agents(self.viewport, self.tracks[idx]),
-                    )
+                    ),
                 )
 
                 await websocket.send(json.dumps(response))
 
 
 def _serialize_agents(viewport: Viewport, frame: Frame) -> JSON:
-    return [
-        _serialize_agent(viewport, a) for a in frame.agents
-    ]
+    return [_serialize_agent(viewport, a) for a in frame.agents]
 
 
 def _serialize_agent(viewport: Viewport, agent: Agent):
@@ -142,7 +140,6 @@ def _serialize_map(viewport: Viewport, interaction_map: Map) -> JSON:
         [point.tolist() for point in viewport.project(triangle)]
         for triangle in interaction_map.triangulate_map_region()
     ]
-    
 
     return dict(
         action="map_data",

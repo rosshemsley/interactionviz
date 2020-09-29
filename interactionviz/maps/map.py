@@ -72,6 +72,7 @@ class Map:
     Map represents the data loaded from a lanelets XML file,
     as represented in the interactions dataset.
     """
+
     ways: Dict[str, Way]
     nodes: Dict[str, Node]
     lanes: Dict[str, Lane]
@@ -93,5 +94,5 @@ class Map:
             triangle = triangles[i]
             triangle_way_ids = [way_ids[j] for j in triangle]
             result.append([points[j] for j in triangle])
-        
+
         return result
