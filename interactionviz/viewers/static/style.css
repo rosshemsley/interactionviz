@@ -1,0 +1,128 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    color: #000;
+    height: 100%;
+}
+
+html {
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+a {
+    color: #080;
+}
+
+#canvas {
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+    position: absolute;
+}
+
+#playcontrols {
+    background-color: #222225;
+    position: absolute;
+    bottom: 0px;
+    z-index: 30;
+    width: 100%;
+    display: flex;
+}
+
+#playcontrols i {
+    padding: 2px;
+    margin: 5px;
+    background-color: #222225;
+    color: white;
+    border: none;
+}
+
+#playcontrols i:hover {
+    color: #cccccc;
+    cursor: default;
+}
+
+#playcontrols input[type=range] {
+    /* display: table-cell; */
+    background-color: #222225;
+    background: transparent;
+    padding: 5px;
+    margin: 5px;
+    margin-right: 15px;
+    width: 100%;
+}
+/* ----- */
+
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 20;
+    top: 0;
+    left: 0;
+    background-color: #111113;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    text-align: center;
+}
+
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#openbtn {
+    border-radius: 7px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #222225;
+    color: white;
+    padding: 7px 7px;
+    border: none;
+    z-index: 10;
+}
+
+.openbtn:hover {
+    background-color: #444;
+}
+
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+
+@media screen and (max-height: 450px) {
+    .sidebar {
+        padding-top: 15px;
+    }
+    .sidebar a {
+        font-size: 18px;
+    }
+}

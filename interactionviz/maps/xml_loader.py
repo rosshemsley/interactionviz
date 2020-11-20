@@ -1,4 +1,5 @@
 import xml.etree
+import xml.etree.ElementTree
 from typing import IO, Union
 import pathlib
 

@@ -52,7 +52,8 @@ class WebViewer:
     def run(self):
         start_server = websockets.serve(
             self._socket_server,
-            "localhost",
+            # "localhost",
+            "0.0.0.0",
             DEFAULT_PORT,
             process_request=self._serve_static,
         )

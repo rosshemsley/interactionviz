@@ -17,7 +17,7 @@ from interactionviz.tracks import Tracks, load_tracks_files
 @click.option("--dataset", default="DR_CHN_Merging_ZS")
 @click.option(
     "--viewer-kind",
-    default="native",
+    default="web",
     type=click.Choice(["web", "native"], case_sensitive=False),
 )
 @click.option("--session", type=int, default=0, help="session to load for tracks")

@@ -1,5 +1,8 @@
 import os
-import arcade
+try:
+    import arcade
+except:
+    pass
 import math
 import numpy as np
 
