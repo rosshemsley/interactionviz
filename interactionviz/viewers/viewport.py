@@ -41,26 +41,6 @@ class Viewport:
             v = v + np.array([self.screen_width / 2, self.screen_height / 2])
             result.append(v)
 
-        # rescale = min(self.screen_height, self.screen_width) / max(x_range, y_range)
-        # midpoint = np.array([self.screen_width / 2, self.screen_height / 2])
-        # result = []
-        # for p in points:
-        #     normalized_frame = (
-        #         p
-        #         - np.array(
-        #             [
-        #                 self.viewport_x_range[0] + x_range / 2,
-        #                 self.viewport_y_range[0] + y_range / 2,
-        #             ]
-        #         )
-        #     ) / max(x_range / 2, y_range / 2)
-        #     normalized_frame *= min(self.screen_height, self.screen_width)
-        #     normalized_frame += np.array(
-        #         [self.screen_width / 2, self.screen_height / 2]
-        #     )
-
-        #     result.append(normalized_frame)
-
         return result
 
 

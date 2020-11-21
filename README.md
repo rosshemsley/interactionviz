@@ -16,7 +16,7 @@ To view a scene, you can use
 ```
 $ interactionviz --root-dir </root/of/interaction/dataset> --dataset DR_USA_Intersection_EP0 --session 1
 ```
-This will open a native 2D top-down viewer.
+This will open the experimental web viewer.
 
 If you have an older version of Python, you can use `pyenv` to install a more recent version.
 
@@ -26,6 +26,10 @@ To try this out, run the following command and navigate to `http://localhost:800
 ```
 $ interactionviz --viewer-kind web --root-dir </root/of/interaction/dataset>
 ```
+
+## Rendering gifs
+When using the interaction dataset for training models, it's useful to be able to write gifs, which may
+be logged to Tensorboard. See the built-in function `write_gif`, to render gifs directly.
 
 ## Using this as a library
 The code is modular and easy to extend. Beware this is an early version and the API
